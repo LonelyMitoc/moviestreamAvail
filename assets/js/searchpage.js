@@ -74,7 +74,25 @@ function fetchMovieData(serviceId) {
       moviePosterEl.setAttribute('src', 'https://image.tmdb.org/t/p/w780' + moviePosterImg);
       var streamingObj = data.streamingInfo
       var objectKey = (Object.keys(streamingObj));
-      document.getElementById('streamingServices').innerHTML = objectKey
+
+      if (objectKey == "netflix") {
+        icon = "./assets/icons/netflix-icon.jpg";
+      } else if (objectKey == "hulu") {
+        icon = "./assets/icons/hulu-icon.jpg";
+      } else if (objectKey == "disney") {
+        icon = "./assets/icons/disney-plus-icon.jpg";
+      } else {
+        icon = undefined;
+      }
+
+      var generateIcon = document.createElement('img').setAttribute("src", icon);
+
+      if (!icon) {
+        document.getElementById('streamingServices').innerHTML = objectKey;
+      } else {
+        document.getElementById('streamingIcon').setAttribute("src", icon);
+      }
+
       console.log(objectKey.length)
       if (objectKey.length === 0) {
 
@@ -98,7 +116,7 @@ function fetchMovieApi(title, year,) {
       /* converts response to json */
       return response.json();
     })
-    .then(function recieveData(data) {
+    .then(function receiveData(data) {
       console.log(data);
 
       // Checks to make sure that the movie searched for exists. If not, An error message is shown and the function is returned
@@ -108,7 +126,7 @@ function fetchMovieApi(title, year,) {
         return;
       }
 
-      /* creating varibles for results and sending them to html */
+      /* creating variables for results and sending them to html */
       var imdb_id = data.imdbID;
       var movietitle = data.Title;
       var plot = data.Plot;
